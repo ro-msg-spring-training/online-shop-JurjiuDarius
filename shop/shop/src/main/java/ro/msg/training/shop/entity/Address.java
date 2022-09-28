@@ -1,4 +1,4 @@
-package ro.msg.training.shop.Entity;
+package ro.msg.training.shop.entity;
 
 import lombok.Data;
 
@@ -17,6 +17,6 @@ public class Address {
     @Column(nullable = false)
     private String county;
 
-    @Column(name="street_address",nullable = false)
+    @Column(name = "street_address", nullable = false)
     private String streetAddress;
 }
