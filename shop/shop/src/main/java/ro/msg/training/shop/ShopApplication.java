@@ -10,8 +10,7 @@ import ro.msg.training.shop.repository.CustomerRepository;
 @EnableAutoConfiguration
 public class ShopApplication {
 
-	@Autowired
-	CustomerRepository customerRepository;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);

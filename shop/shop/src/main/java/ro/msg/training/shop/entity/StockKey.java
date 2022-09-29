@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
-public class StockKey implements Serializable{
-    @Column(name="product_id",nullable = false)
+public class StockKey implements Serializable {
+    @Column(name = "product_id", nullable = false)
     private Integer productId;
 
-    @Column(name="product_id",nullable = false)
+    @Column(name = "product_id", nullable = false)
     private Integer locationId;
 }

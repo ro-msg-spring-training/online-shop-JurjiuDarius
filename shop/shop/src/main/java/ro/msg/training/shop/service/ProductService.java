@@ -2,8 +2,8 @@ package ro.msg.training.shop.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ro.msg.training.shop.dto.ProductDTOMapper;
-import ro.msg.training.shop.dto.ProductReadDTO;
+import ro.msg.training.shop.dto.product.ProductDTOMapper;
+import ro.msg.training.shop.dto.product.ProductReadDTO;
 import ro.msg.training.shop.entity.Product;
 import ro.msg.training.shop.entity.ProductCategory;
 import ro.msg.training.shop.entity.Supplier;
@@ -19,9 +19,9 @@ import java.util.Optional;
 @Slf4j
 public class ProductService {
 
-    private ProductRepository productRepository;
-    private SupplierRepository supplierRepository;
-    private ProductCategoryRepository productCategoryRepository;
+    private final ProductRepository productRepository;
+    private final SupplierRepository supplierRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     public ProductService(ProductRepository productRepository, SupplierRepository supplierRepository,
                           ProductCategoryRepository productCategoryRepository) {
@@ -61,7 +61,7 @@ public class ProductService {
 
     public ProductReadDTO updateProduct(Product product) {
         setSupplierAndCategory(product);
-        log.info("This is the id of the product that was updated" + Integer.toString(product.getId()));
+        log.info("This is the id of the product that was updated" + product.getId());
         productRepository.save(product);
         return ProductDTOMapper.toDto(product);
     }

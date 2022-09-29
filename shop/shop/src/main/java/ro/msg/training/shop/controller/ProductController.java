@@ -1,9 +1,9 @@
 package ro.msg.training.shop.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ro.msg.training.shop.dto.ProductDTOMapper;
-import ro.msg.training.shop.dto.ProductReadDTO;
-import ro.msg.training.shop.dto.ProductWriteDTO;
+import ro.msg.training.shop.dto.product.ProductDTOMapper;
+import ro.msg.training.shop.dto.product.ProductReadDTO;
+import ro.msg.training.shop.dto.product.ProductWriteDTO;
 import ro.msg.training.shop.service.ProductService;
 
 import java.util.List;

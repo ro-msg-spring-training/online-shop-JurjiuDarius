@@ -2,7 +2,7 @@
 create table if not exists location(
 id SERIAL UNIQUE,
 name varchar(50),
-address varchar(50),
+country varchar(50),
 city varchar(50),
 county varchar(50),
 street_address varchar(50),

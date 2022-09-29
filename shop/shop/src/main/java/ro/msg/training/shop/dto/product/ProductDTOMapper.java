@@ -1,14 +1,8 @@
-package ro.msg.training.shop.dto;
+package ro.msg.training.shop.dto.product;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ro.msg.training.shop.entity.Product;
 import ro.msg.training.shop.entity.ProductCategory;
 import ro.msg.training.shop.entity.Supplier;
-import ro.msg.training.shop.repository.ProductCategoryRepository;
-import ro.msg.training.shop.repository.ProductRepository;
-import ro.msg.training.shop.repository.SupplierRepository;
 
 
 public class ProductDTOMapper {
