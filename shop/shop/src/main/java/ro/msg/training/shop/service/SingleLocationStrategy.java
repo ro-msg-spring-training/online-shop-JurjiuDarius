@@ -5,14 +5,15 @@ import ro.msg.training.shop.entity.*;
 import ro.msg.training.shop.repository.LocationRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 public class SingleLocationStrategy implements LocationStrategy {
     @Override
     public ArrayList<ProductLocationDTO> orderLocationStrategy(LocationRepository locationRepository, ArrayList<OrderDetail> orderDetails) {
         Iterable<Location> locations = locationRepository.findAll();
-        TreeMap<Product, Location> productLocations = new TreeMap<Product, Location>();
-        TreeMap<Product, Integer> productQuantities = new TreeMap<Product, Integer>();
+        HashMap<Product, Location> productLocations = new HashMap<Product, Location>();
+        HashMap<Product, Integer> productQuantities = new HashMap<Product, Integer>();
         Boolean validLocation;
         ArrayList<ProductLocationDTO> productLocationDTOS = new ArrayList<ProductLocationDTO>();
         for (Location location : locations) {

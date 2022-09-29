@@ -12,7 +12,6 @@ import ro.msg.training.shop.repository.StockRepository;
 import java.util.ArrayList;
 
 @Service
-@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -35,7 +34,6 @@ public class OrderService {
             Product product = productLocationDTO.getProduct();
             Location location = productLocationDTO.getLocation();
             Integer quantity = productLocationDTO.getQuantity();
-            log.info(product.getName() + " " + location.getName() + " " + quantity);
             Boolean sufficientStock = false;
             for (Stock stock : location.getStocks()) {
                 if (stock.getProduct().getId() == product.getId() && stock.getQuantity() >= quantity && stock.getLocation().getId() == location.getId()) {

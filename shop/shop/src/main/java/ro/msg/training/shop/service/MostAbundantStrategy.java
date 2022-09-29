@@ -39,7 +39,6 @@ public class MostAbundantStrategy implements LocationStrategy {
             if (!suitableLocationExists) {
                 return new ArrayList<ProductLocationDTO>();
             }
-
         }
         ArrayList<ProductLocationDTO> productLocationDTOS = new ArrayList<>();
         for (OrderDetail orderDetail : orderDetails) {

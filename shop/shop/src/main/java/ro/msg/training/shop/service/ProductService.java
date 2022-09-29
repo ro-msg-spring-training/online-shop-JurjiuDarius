@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -32,10 +31,8 @@ public class ProductService {
 
 
     public List<ProductReadDTO> allProducts() {
-        log.info("Retrieving products from the database");
         Iterable<Product> products = productRepository.findAll();
         System.out.println(products.iterator().next().getName());
-        log.info("Retrieved products from the database");
         List<ProductReadDTO> productReadDTOList = new ArrayList<>();
         products.forEach(e -> {
             productReadDTOList.add(ProductDTOMapper.toDto(e));
@@ -61,7 +58,6 @@ public class ProductService {
 
     public ProductReadDTO updateProduct(Product product) {
         setSupplierAndCategory(product);
-        log.info("This is the id of the product that was updated" + product.getId());
         productRepository.save(product);
         return ProductDTOMapper.toDto(product);
     }
