@@ -1,36 +1,37 @@
 package ro.msg.training.shop.service;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import ro.msg.training.shop.service.strategies.LocationStrategy;
+import ro.msg.training.shop.service.strategies.MostAbundantStrategy;
+import ro.msg.training.shop.service.strategies.SingleLocationStrategy;
 
 @Configuration
 @Data
+@RequiredArgsConstructor
 public class StrategyConfiguration {
-    private static LocationStrategy locationStrategy;
-    private org.springframework.core.env.Environment env;
-
-    StrategyConfiguration(Environment env) {
-        this.env = env;
-        String strategy = env.getProperty("locationStrategy");
-        switch (strategy) {
-            case "singleLocation": {
-                locationStrategy = new SingleLocationStrategy();
-                break;
-            }
-            case "mostAbundant": {
-                locationStrategy = new MostAbundantStrategy();
-                break;
-            }
-            default: {
-                locationStrategy = new MostAbundantStrategy();
-            }
-        }
-    }
-
-    public static LocationStrategy getLocationStrategy() {
-        return locationStrategy;
-    }
-
-
+	
+	@Value("${locationStrategy}")
+	private String locationStrategyVariable;
+	
+	@Bean
+	public LocationStrategy getLocationStrategy() {
+		switch (LocationStrategyEnum.valueOf(locationStrategyVariable)) {
+			case SINGLE_LOCATION: {
+				return new SingleLocationStrategy();
+			}
+			case MOST_ABUNDANT: {
+				return new MostAbundantStrategy();
+			}
+			default:
+				return new MostAbundantStrategy();
+		}
+	}
+	
 }
+
+
+

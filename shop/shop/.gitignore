@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+src/main/java/ro/msg/training/shop/utils/CsvUtil.java
+src/main/java/ro/msg/training/shop/service/StockService.java
+src/main/java/ro/msg/training/shop/controller/StockController.java

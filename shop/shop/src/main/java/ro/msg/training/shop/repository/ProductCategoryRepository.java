@@ -6,4 +6,5 @@ import ro.msg.training.shop.entity.ProductCategory;
 
 @Repository
 public interface ProductCategoryRepository extends CrudRepository<ProductCategory, Integer> {
+
 }

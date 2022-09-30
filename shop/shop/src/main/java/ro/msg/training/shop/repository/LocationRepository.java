@@ -6,4 +6,5 @@ import ro.msg.training.shop.entity.Location;
 
 @Repository
 public interface LocationRepository extends CrudRepository<Location, Integer> {
+
 }

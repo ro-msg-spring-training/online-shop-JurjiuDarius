@@ -10,20 +10,21 @@ import javax.persistence.*;
 @Data
 @RequiredArgsConstructor
 public class OrderDetail {
-    @EmbeddedId
-    OrderDetailKey id;
-
-    @Column(nullable = false)
-    private int quantity;
-
-    @JoinColumn(name = "product_id")
-    @ManyToOne
-    @MapsId("productId")
-    private Product product;
-
-    @JoinColumn(name = "order_id")
-    @ManyToOne
-    @MapsId("orderId")
-    private Order order;
-
+	
+	@EmbeddedId
+	OrderDetailKey id;
+	
+	@Column(nullable = false)
+	private int quantity;
+	
+	@JoinColumn(name = "product_id")
+	@ManyToOne
+	@MapsId("productId")
+	private Product product;
+	
+	@JoinColumn(name = "order_id")
+	@ManyToOne
+	@MapsId("orderId")
+	private Order order;
+	
 }

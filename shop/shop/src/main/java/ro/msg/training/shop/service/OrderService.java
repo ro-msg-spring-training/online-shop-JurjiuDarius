@@ -1,53 +1,67 @@
 package ro.msg.training.shop.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ro.msg.training.shop.dto.product.ProductLocationDTO;
 import ro.msg.training.shop.entity.*;
-import ro.msg.training.shop.repository.LocationRepository;
+import ro.msg.training.shop.exception.OutOfStockException;
 import ro.msg.training.shop.repository.OrderRepository;
-import ro.msg.training.shop.repository.StockRepository;
+import ro.msg.training.shop.service.strategies.LocationStrategy;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-
-    private final OrderRepository orderRepository;
-    private final LocationRepository locationRepository;
-    private final StockRepository stockRepository;
-
-    public OrderService(OrderRepository orderRepository, LocationRepository locationRepository, StockRepository stockRepository) {
-        this.orderRepository = orderRepository;
-        this.locationRepository = locationRepository;
-        this.stockRepository = stockRepository;
-    }
-
-    public Order createOrder(Order order) throws RuntimeException {
-
-        ArrayList<ProductLocationDTO> productLocationDTOS = StrategyConfiguration.getLocationStrategy().
-                orderLocationStrategy(locationRepository, new ArrayList<OrderDetail>(order.getOrderDetails()));
-        if (productLocationDTOS.isEmpty()) return null;
-
-        for (ProductLocationDTO productLocationDTO : productLocationDTOS) {
-            Product product = productLocationDTO.getProduct();
-            Location location = productLocationDTO.getLocation();
-            Integer quantity = productLocationDTO.getQuantity();
-            Boolean sufficientStock = false;
-            for (Stock stock : location.getStocks()) {
-                if (stock.getProduct().getId() == product.getId() && stock.getQuantity() >= quantity && stock.getLocation().getId() == location.getId()) {
-                    sufficientStock = true;
-                    stock.setQuantity(stock.getQuantity() - quantity);
-                    stockRepository.save(stock);
-                }
-            }
-            if (!sufficientStock) {
-                return null;
-            }
-        }
-        return order;
-    }
-
-
+	
+	private final OrderRepository orderRepository;
+	
+	private final LocationStrategy locationStrategy;
+	
+	private final LocationService locationService;
+	
+	private final StockService stockService;
+	
+	private final ProductService productService;
+	
+	private final OrderDetailService orderDetailService;
+	
+	private final CustomerService customerService;
+	
+	@Transactional
+	public Order createOrder(Order order) throws RuntimeException {
+		ArrayList<Stock> productLocationDTOS = locationStrategy.orderLocationStrategy(locationService, new ArrayList<>(order.getOrderDetails()));
+		if (productLocationDTOS.isEmpty()) {
+			throw new OutOfStockException("One or more of the selected items do not have sufficient stock.");
+		}
+		for (Stock stock : productLocationDTOS) {
+			Product product = stock.getProduct();
+			Location location = stock.getLocation();
+			int quantity = stock.getQuantity();
+			boolean sufficientStock = false;
+			for (Stock stock1 : location.getStocks()) {
+				if (stock1.getProduct().getId() == product.getId() && stock1.getQuantity() >= quantity && stock1.getLocation().getId() == location.getId()) {
+					sufficientStock = true;
+					stock1.setQuantity(stock.getQuantity() - quantity);
+					stockService.createStock(stock1);
+				}
+			}
+			if (!sufficientStock) {
+				throw new OutOfStockException("Insufficient stock");
+			}
+		}
+		order.setLocation(productLocationDTOS.get(1).getLocation());
+		order.setCustomer(customerService.getCustomerById(order.getCustomer().getId()));
+		orderRepository.save(order);
+		for (OrderDetail orderDetail : order.getOrderDetails()) {
+			orderDetail.setProduct(productService.getProductById(orderDetail.getProduct().getId()));
+			orderDetail.setOrder(order);
+			orderDetail.setId(new OrderDetailKey());
+			orderDetail.getId().setOrderId(orderDetail.getOrder().getId());
+			orderDetail.getId().setProductId(orderDetail.getProduct().getId());
+			orderDetailService.createOrderDetail(orderDetail);
+		}
+		return order;
+	}
+	
 }

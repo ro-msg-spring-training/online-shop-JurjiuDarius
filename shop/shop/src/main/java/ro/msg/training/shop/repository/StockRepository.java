@@ -7,4 +7,5 @@ import ro.msg.training.shop.entity.StockKey;
 
 @Repository
 public interface StockRepository extends CrudRepository<Stock, StockKey> {
+
 }

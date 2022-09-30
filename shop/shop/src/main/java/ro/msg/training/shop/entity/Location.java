@@ -10,21 +10,21 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Embedded
-    private Address address;
-
-    @OneToMany(mappedBy = "location")
-    private List<Stock> stocks;
-
-    @OneToMany(mappedBy = "location")
-    private List<Order> orders;
-
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name = "name", nullable = false)
+	private String name;
+	
+	@Embedded
+	private Address address;
+	
+	@OneToMany(mappedBy = "location")
+	private List<Stock> stocks;
+	
+	@OneToMany(mappedBy = "location")
+	private List<Order> orders;
+	
 }

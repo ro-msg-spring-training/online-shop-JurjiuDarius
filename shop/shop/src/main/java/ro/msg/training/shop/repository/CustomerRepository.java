@@ -6,4 +6,5 @@ import ro.msg.training.shop.entity.Customer;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+
 }
