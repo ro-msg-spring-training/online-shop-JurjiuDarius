@@ -17,6 +17,6 @@ public class OrderReadDTO {
 	
 	private String streetAddress;
 	
-	private ArrayList<OrderDetailDTO> orderDetailDTOS;
+	private ArrayList<OrderDetailDTO> orderDetails;
 	
 }

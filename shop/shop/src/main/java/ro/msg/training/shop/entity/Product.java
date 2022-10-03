@@ -1,6 +1,5 @@
 package ro.msg.training.shop.entity;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -34,12 +33,10 @@ public class Product {
 	
 	@JoinColumn(name = "supplier_id")
 	@ManyToOne
-	@JsonUnwrapped
 	private Supplier supplier;
 	
 	@JoinColumn(name = "product_category_id")
 	@ManyToOne
-	@JsonUnwrapped
 	private ProductCategory productCategory;
 	
 	@OneToMany(mappedBy = "product")

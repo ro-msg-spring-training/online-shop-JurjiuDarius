@@ -1,4 +1,4 @@
-package ro.msg.training.shop.service.strategies;
+package ro.msg.training.shop.service.strategy;
 
 import ro.msg.training.shop.entity.OrderDetail;
 import ro.msg.training.shop.entity.Stock;

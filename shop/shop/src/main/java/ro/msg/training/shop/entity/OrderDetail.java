@@ -1,5 +1,6 @@
 package ro.msg.training.shop.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_detail")
 @Data
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class OrderDetail {
 	

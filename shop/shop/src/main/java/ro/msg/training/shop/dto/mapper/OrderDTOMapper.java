@@ -28,7 +28,7 @@ public class OrderDTOMapper {
 	
 	private static void addOrderDetails(OrderReadDTO dto, Order order) {
 		ArrayList<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
-		for (OrderDetailDTO orderDetailDTO : dto.getOrderDetailDTOS()) {
+		for (OrderDetailDTO orderDetailDTO : dto.getOrderDetails()) {
 			OrderDetail orderDetail = new OrderDetail();
 			Product product = new Product();
 			product.setId(orderDetailDTO.getProductId());

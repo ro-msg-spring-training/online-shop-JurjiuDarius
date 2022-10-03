@@ -1,13 +1,11 @@
-package ro.msg.training.shop.service;
+package ro.msg.training.shop.service.strategy;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ro.msg.training.shop.service.strategies.LocationStrategy;
-import ro.msg.training.shop.service.strategies.MostAbundantStrategy;
-import ro.msg.training.shop.service.strategies.SingleLocationStrategy;
+import ro.msg.training.shop.service.LocationStrategyEnum;
 
 @Configuration
 @Data

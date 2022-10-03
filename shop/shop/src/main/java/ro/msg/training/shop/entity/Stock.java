@@ -1,6 +1,7 @@
 package ro.msg.training.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "stock")
 public class Stock {

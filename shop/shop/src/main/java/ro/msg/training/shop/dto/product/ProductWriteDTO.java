@@ -3,11 +3,9 @@ package ro.msg.training.shop.dto.product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
-public class ProductWriteDTO implements Serializable {
+public class ProductWriteDTO {
 	
 	private int id;
 	

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.msg.training.shop.entity.*;
 import ro.msg.training.shop.exception.OutOfStockException;
 import ro.msg.training.shop.repository.OrderRepository;
-import ro.msg.training.shop.service.strategies.LocationStrategy;
+import ro.msg.training.shop.service.strategy.LocationStrategy;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ public class OrderService {
 	
 	@Transactional
 	public Order createOrder(Order order) throws RuntimeException {
-		ArrayList<Stock> productLocationDTOS = locationStrategy.orderLocationStrategy(locationService, new ArrayList<>(order.getOrderDetails()));
-		if (productLocationDTOS.isEmpty()) {
+		ArrayList<Stock> stocks = locationStrategy.orderLocationStrategy(locationService, new ArrayList<>(order.getOrderDetails()));
+		if (stocks.isEmpty()) {
 			throw new OutOfStockException("One or more of the selected items do not have sufficient stock.");
 		}
-		for (Stock stock : productLocationDTOS) {
+		for (Stock stock : stocks) {
 			Product product = stock.getProduct();
 			Location location = stock.getLocation();
 			int quantity = stock.getQuantity();
@@ -42,7 +42,7 @@ public class OrderService {
 			for (Stock stock1 : location.getStocks()) {
 				if (stock1.getProduct().getId() == product.getId() && stock1.getQuantity() >= quantity && stock1.getLocation().getId() == location.getId()) {
 					sufficientStock = true;
-					stock1.setQuantity(stock.getQuantity() - quantity);
+					stock1.setQuantity(stock1.getQuantity() - quantity);
 					stockService.createStock(stock1);
 				}
 			}
@@ -50,7 +50,7 @@ public class OrderService {
 				throw new OutOfStockException("Insufficient stock");
 			}
 		}
-		order.setLocation(productLocationDTOS.get(1).getLocation());
+		order.setLocation(stocks.get(1).getLocation());
 		order.setCustomer(customerService.getCustomerById(order.getCustomer().getId()));
 		orderRepository.save(order);
 		for (OrderDetail orderDetail : order.getOrderDetails()) {
