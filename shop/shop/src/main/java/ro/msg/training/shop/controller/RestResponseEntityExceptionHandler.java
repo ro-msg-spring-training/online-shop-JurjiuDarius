@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ro.msg.training.shop.exception.OutOfStockException;
+import ro.msg.training.shop.exception.ProductNotFoundException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -20,6 +21,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	@ExceptionHandler(value = {OutOfStockException.class})
 	protected ResponseEntity<Object> handleOutOfStock(RuntimeException ex, WebRequest request) {
+		String bodyOfResponse = ex.getMessage();
+		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	
+	@ExceptionHandler(value = {ProductNotFoundException.class})
+	protected ResponseEntity<Object> handleNoProduct(RuntimeException ex, WebRequest request) {
 		String bodyOfResponse = ex.getMessage();
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}

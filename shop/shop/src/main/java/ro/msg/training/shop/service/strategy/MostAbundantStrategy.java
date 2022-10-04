@@ -24,7 +24,7 @@ public class MostAbundantStrategy implements LocationStrategy {
 			productMaxQuantities.put(product, 0);
 			for (Location location : locations) {
 				for (Stock stock : location.getStocks()) {
-					if ((stock.getProduct().getId() == product.getId()) && stock.getQuantity() > productMaxQuantities.get(product)) {
+					if ((stock.getProduct().getId() == product.getId()) && stock.getQuantity() > productMaxQuantities.get(product) && stock.getQuantity() >= orderDetail.getQuantity()) {
 						productMaxQuantities.put(product, stock.getQuantity());
 						productLocations.put(product, location);
 						suitableLocationExists = true;
