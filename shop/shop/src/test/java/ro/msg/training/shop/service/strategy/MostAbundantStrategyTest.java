@@ -19,10 +19,6 @@ class MostAbundantStrategyTest {
 	
 	private ArrayList<Location> locations;
 	
-	private ArrayList<OrderDetail> orderDetails;
-	
-	private ArrayList<Product> products;
-	
 	private void initialiseData() {
 	
 	}
@@ -49,8 +45,6 @@ class MostAbundantStrategyTest {
 		ArrayList<OrderDetail> orderDetails = new ArrayList<>();
 		orderDetails.add(orderDetail1);
 		orderDetails.add(orderDetail2);
-		
-		ArrayList<Location> locations = new ArrayList<>();
 		locations.add(deva);
 		locations.add(cluj);
 		
@@ -78,8 +72,8 @@ class MostAbundantStrategyTest {
 		Stock stock2 = new Stock(new StockKey(), 40, location1, product2);
 		Stock stock3 = new Stock(new StockKey(), 100, location2, product1);
 		Stock stock4 = new Stock(new StockKey(), 10, location2, product2);
-		location1.setStocks(new ArrayList<Stock>());
-		location2.setStocks(new ArrayList<Stock>());
+		location1.setStocks(new ArrayList<>());
+		location2.setStocks(new ArrayList<>());
 		location1.getStocks().add(stock1);
 		location1.getStocks().add(stock2);
 		location2.getStocks().add(stock3);

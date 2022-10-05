@@ -25,8 +25,6 @@ public class OrderControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private String inputJson;
-	
 	@Test
 	public void testOrderCreationSuccess() throws Exception {
 		
@@ -37,9 +35,11 @@ public class OrderControllerTest {
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 		
-		System.out.println(result.getResponse().getContentAsString());
 		assert (result.getResponse().getStatus() == 200);
-		assert (result.getResponse().getContentAsString().contains("customerId"));
+		assert (result.getResponse().getContentAsString().contains("\"customerId\":1"));
+		assert (result.getResponse().getContentAsString().contains("\"country\":\"Romania\""));
+		assert (result.getResponse().getContentAsString().contains("\"city\":\"Deva\""));
+		assert (result.getResponse().getContentAsString().contains("\"county\":\"Hunedoara\""));
 	}
 	
 	@Test
