@@ -21,8 +21,14 @@ class MostAbundantStrategyTest {
 	
 	private ArrayList<OrderDetail> orderDetails;
 	
+	private ArrayList<Product> products;
+	
+	private void initialiseData() {
+	
+	}
+	
 	@Test
-	void testMostAbundantStrategy() {
+	void testSuccessAndFailureMostAbundantStrategy() {
 		MostAbundantStrategy mostAbundantStrategy = new MostAbundantStrategy();
 		Product laptop = new Product();
 		Product shoes = new Product();
@@ -51,9 +57,13 @@ class MostAbundantStrategyTest {
 		Mockito.when(locationService.getLocations()).thenReturn(locations);
 		ArrayList<Stock> stocks = mostAbundantStrategy.orderLocationStrategy(locationService, orderDetails);
 		
+		assert (!stocks.isEmpty());
+		assert ((stocks.get(0) != null) && (stocks.get(0).getProduct() != null) && (stocks.get(0).getLocation() != null));
 		for (Stock stock : stocks) {
 			assert !stock.getProduct().equals(laptop) || stock.getLocation().equals(cluj);
+			assert !stock.getProduct().equals(laptop) || stock.getQuantity() == 10;
 			assert !stock.getProduct().equals(shoes) || stock.getLocation().equals(deva);
+			assert !stock.getProduct().equals(shoes) || stock.getQuantity() == 20;
 		}
 		
 		OrderDetail failedDetail = new OrderDetail(new OrderDetailKey(), 10000, shoes, new Order());
@@ -61,7 +71,6 @@ class MostAbundantStrategyTest {
 		failedDetails.add(failedDetail);
 		stocks = mostAbundantStrategy.orderLocationStrategy(locationService, failedDetails);
 		assert stocks.isEmpty();
-		
 	}
 	
 	private void setLocationStocks(Location location1, Location location2, Product product1, Product product2) {
@@ -75,7 +84,6 @@ class MostAbundantStrategyTest {
 		location1.getStocks().add(stock2);
 		location2.getStocks().add(stock3);
 		location2.getStocks().add(stock4);
-		
 	}
 	
 }
