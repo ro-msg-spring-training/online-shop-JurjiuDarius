@@ -30,10 +30,16 @@ public class OrderService {
 	
 	@Transactional
 	public Order createOrder(Order order) throws RuntimeException {
+		
+		for (OrderDetail orderDetail : order.getOrderDetails()) {
+			productService.getProductById(orderDetail.getProduct().getId());
+		}
 		ArrayList<Stock> stocks = locationStrategy.orderLocationStrategy(locationService, new ArrayList<>(order.getOrderDetails()));
+		
 		if (stocks.isEmpty()) {
 			throw new OutOfStockException("One or more of the selected items do not have sufficient stock.");
 		}
+		
 		for (Stock stock : stocks) {
 			Product product = stock.getProduct();
 			Location location = stock.getLocation();
@@ -48,11 +54,14 @@ public class OrderService {
 			}
 			if (!sufficientStock) {
 				throw new OutOfStockException("Insufficient stock");
+				
 			}
 		}
-		order.setLocation(stocks.get(1).getLocation());
+		
+		order.setLocation(stocks.get(0).getLocation());
 		order.setCustomer(customerService.getCustomerById(order.getCustomer().getId()));
 		orderRepository.save(order);
+		
 		for (OrderDetail orderDetail : order.getOrderDetails()) {
 			orderDetail.setProduct(productService.getProductById(orderDetail.getProduct().getId()));
 			orderDetail.setOrder(order);

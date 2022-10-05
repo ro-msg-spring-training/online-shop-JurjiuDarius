@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.msg.training.shop.entity.Product;
 import ro.msg.training.shop.entity.ProductCategory;
 import ro.msg.training.shop.entity.Supplier;
+import ro.msg.training.shop.exception.ProductNotFoundException;
 import ro.msg.training.shop.repository.ProductRepository;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ProductService {
 	public Product getProductById(int id) throws RuntimeException {
 		Optional<Product> product = productRepository.findById(id);
 		if (product.isEmpty()) {
-			throw new RuntimeException("Product not found");
+			throw new ProductNotFoundException("Product not found");
 		}
 		return product.get();
 	}
